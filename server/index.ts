@@ -1,25 +1,40 @@
-import express from "express"; // Express: Used to create REST APIs
-import dotenv from "dotenv"; // dotenv: Loads environment variables from .env
-import sequelize from "./config/db"; // Import Sequelize connection
-import authRoutes from "./routes/auth.routes"; // Auth API routes
+import express from "express";
+import dotenv from "dotenv";
 import cors from "cors";
+import { PrismaClient } from "@prisma/client";
+import authRoutes from "./routes/auth.routes"; // your route file
 
-dotenv.config(); // Loads variables from `.env` file
+dotenv.config();
+
 const app = express();
+const prisma = new PrismaClient();
 
 app.use(
   cors({
-    origin: "*", // Allow all origins (not for production)
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
-app.use(express.json()); // Middleware to parse JSON request bodies
 
-app.use("/api/auth", authRoutes); // Mount `/api/auth` routes (like /register, /login)
+app.use(express.json());
+
+app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT || 5000;
 
-// Connect to DB and start server
-sequelize.sync().then(() => {
-  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-});
+// Start server after checking DB connection
+async function startServer() {
+  try {
+    await prisma.$connect();
+    console.log("✅ Connected to the database");
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ Failed to connect to the database:", error);
+    process.exit(1);
+  }
+}
+
+startServer();

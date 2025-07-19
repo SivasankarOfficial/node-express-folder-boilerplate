@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { verifyToken } from "../middleware/auth.middleware";
+import { authMiddleware } from "../middleware/auth.middleware";
 import { getUserInfo } from "../controllers/user.controller";
 
 const router = Router();
 
 // GET /api/user/me
-router.get("/me", verifyToken, getUserInfo);
+router.get("/me", authMiddleware, getUserInfo);
 
 export default router;
