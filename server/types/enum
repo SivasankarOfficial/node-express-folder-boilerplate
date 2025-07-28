@@ -1,0 +1,17 @@
+// enum Role {
+//   CLIENT
+//   FREELANCER
+//   ADMIN
+// }
+
+// enum JobStatus {
+//   OPEN
+//   IN_PROGRESS
+//   COMPLETED
+// }
+
+// enum ProposalStatus {
+//   SUBMITTED
+//   ACCEPTED
+//   REJECTED
+// }

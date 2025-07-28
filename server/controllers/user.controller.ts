@@ -14,6 +14,8 @@ export const getUserInfo = async (req: Request, res: Response) => {
         name: true,
         email: true,
         role: true,
+        jobs: true,
+        proposals: true,
       },
     });
 

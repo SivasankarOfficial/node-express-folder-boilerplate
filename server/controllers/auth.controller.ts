@@ -2,10 +2,18 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import prisma from "../libs/prisma"; // Make sure this path matches
+import { Role } from "@prisma/client"; // make sure it's imported from Prisma, not your own enum
 
 export const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password, role } = req.body;
+
+    // ✅ Validate role
+    if (!Object.values(Role).includes(role)) {
+      return res.status(400).json({
+        message: "Invalid role. Allowed roles are CLIENT and FREELANCER",
+      });
+    }
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
@@ -19,7 +27,7 @@ export const register = async (req: Request, res: Response) => {
         name,
         email,
         password: hashedPassword,
-        role,
+        role, // ✅ Already validated, so no need to cast
       },
     });
 
