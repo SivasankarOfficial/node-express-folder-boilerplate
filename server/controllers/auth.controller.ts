@@ -7,7 +7,11 @@ import { Role } from "@prisma/client"; // make sure it's imported from Prisma, n
 export const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password, role } = req.body;
-
+    if (!role) {
+      return res.status(400).json({
+        message: "Role is required. Allowed roles are CLIENT and FREELANCER",
+      });
+    }
     // ✅ Validate role
     if (!Object.values(Role).includes(role)) {
       return res.status(400).json({
@@ -39,7 +43,13 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
+  console.log("Login attempt for email:", req.body.email);
+
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required." });
+  }
+  console.log("Login attempt for email:", email);
 
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) return res.status(404).json({ message: "User not found" });
