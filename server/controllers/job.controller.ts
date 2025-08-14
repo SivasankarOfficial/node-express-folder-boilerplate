@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 // ✅ Create a Job (CLIENT only)
 export const createJob = async (req: AuthRequest, res: Response) => {
   try {
-    const { title, description, budget, category } = req.body;
+    const { title, description, budget, category, requiredSkills } = req.body;
     const user = req.user;
 
     if (!user || user.role !== Role.CLIENT) {
@@ -23,6 +23,7 @@ export const createJob = async (req: AuthRequest, res: Response) => {
         title,
         description,
         budget,
+        requiredSkills,
         category,
         userId: user.id,
         status: JobStatus.OPEN,

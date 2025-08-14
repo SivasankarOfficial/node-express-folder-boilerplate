@@ -7,6 +7,7 @@ import adminRoutes from "./admin.routes";
 import profileRoutes from "./profile.routes";
 import projectRoutes from "./project.routes";
 import reviewRoutes from "./review.routes";
+import imageUploadRoutes from "./upload.routes";
 
 export const registerRoutes = (app: Express) => {
   app.use("/api/auth", authRoutes);
@@ -17,4 +18,5 @@ export const registerRoutes = (app: Express) => {
   app.use("/profile", profileRoutes);
   app.use("/", projectRoutes);
   app.use("/review", reviewRoutes);
+  app.use("/", imageUploadRoutes);
 };

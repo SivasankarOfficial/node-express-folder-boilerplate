@@ -56,18 +56,19 @@ model Profile {
 
 // job posted by client
 model Job {
-  id          String     @id @default(uuid())
-  title       String
-  description String
-  budget      Float
-  category    String?
-  status      JobStatus  @default(OPEN)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @default(now())
-  userId      String
-  postedBy    User       @relation("JobPostedBy", fields: [userId], references: [id])
-  proposals   Proposal[]
-  project     Project?
+  id             String     @id @default(uuid())
+  title          String
+  description    String
+  budget         Float
+  requiredSkills String[]
+  category       String?
+  status         JobStatus  @default(OPEN)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @default(now())
+  userId         String
+  postedBy       User       @relation("JobPostedBy", fields: [userId], references: [id])
+  proposals      Proposal[]
+  project        Project?
 }
 
 // proposal submitted by freelancer
